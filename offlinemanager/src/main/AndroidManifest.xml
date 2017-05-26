@@ -1,0 +1,23 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="fernandes.sidarta.offlinemanager">
+
+    <application android:allowBackup="true" android:label="@string/app_name"
+        android:supportsRtl="true" android:name=".CallsQueue">
+
+        <service
+            android:name=".OfflineManagerService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service android:name=".OfflineManagerServiceLollipop"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

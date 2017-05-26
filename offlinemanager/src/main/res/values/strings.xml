@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">OfflineManager</string>
+
+    <!--default pop up controls-->
+    <string name="pop_up_yes">Yes</string>
+    <string name="pop_up_no">No</string>
+
+    <!--enforce device mode-->
+    <string name="enforce_no_connection_feedback">Your device does not have connection. Please try again later.</string>
+
+    <!--flexible mode dialog texts (title and message) -->
+    <string name="flexible_dialog_connection_title">No connection</string>
+    <string name="flexible_dialog_connection_message">Your device does not have connection. Do you wish to automatically proceeds when internet becomes available?</string>
+    <string name="flexible_dialog_server_retry_title">Server appears to be offline...</string>
+    <string name="flexible_dialog_server_retry_message">Do you wish for it to be done again in a few minutes?</string>
+
+    <!--verbose mode yes feedback strings-->
+    <string name="flexible_yes_selected_device_offline">Your action was stored and will take effect as soon as the device gets an active connection.</string>
+    <string name="flexible_no_selected_device_offline">"Action not taken. You can try again later."</string>
+    <string name="last_retry_finished">last retry finished</string>
+    <string name="no_action">Your server is offline. Please try again in a later time.</string>
+    <string name="flexible_yes_selected_server_offline">Action stored, will be tried again in a bit</string>
+    <string name="flexible_no_selected_server_offline">Ok, maybe try again later for yourself</string>
+    <string name="service_onresponse">Action was able to complete now.</string>
+</resources>
