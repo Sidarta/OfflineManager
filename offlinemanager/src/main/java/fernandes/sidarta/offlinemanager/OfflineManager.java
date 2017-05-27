@@ -27,8 +27,12 @@ import retrofit2.Response;
 
 public class OfflineManager {
 
+    private static final int DEFAULT_TIMEOUT = 5000;
+
     private final View mView;
     private final Context mContext;
+
+    private final int maxTimeoutSeconds;
 
     public enum DeviceOfflineTreatment {
         Enforce,
@@ -189,16 +193,16 @@ public class OfflineManager {
         scheduleJobConnection(jobId, context);
     }
 
-    void handleServerOffline(int jobId,
-                                final Call call,
-                                final DeviceOfflineTreatment deviceOffTreatment,
-                                final ServerOfflineTreatment serverOffTreatment,
-                                final boolean verbose,
-                                final int retries,
-                                final CustomCallbackSuccess interSuccess,
-                                final CustomCallbackFail interFail,
-                                final Context context,
-                                final View view){
+    private void handleServerOffline(int jobId,
+                                     final Call call,
+                                     final DeviceOfflineTreatment deviceOffTreatment,
+                                     final ServerOfflineTreatment serverOffTreatment,
+                                     final boolean verbose,
+                                     final int retries,
+                                     final CustomCallbackSuccess interSuccess,
+                                     final CustomCallbackFail interFail,
+                                     final Context context,
+                                     final View view){
         if(jobId == 0) {
             //gerando o job id
             final Random rand = new Random(System.currentTimeMillis());
@@ -233,7 +237,7 @@ public class OfflineManager {
             OneoffTask myTask = new OneoffTask.Builder()
                     .setService(OfflineManagerServiceLollipop.class)
                     .setRequiredNetwork(OneoffTask.NETWORK_STATE_CONNECTED)
-                    .setExecutionWindow(0, 1)
+                    .setExecutionWindow(1, 2)
                     .setTag(Integer.toString(jobId))
                     .build();
             GcmNetworkManager.getInstance(context).schedule(myTask);
@@ -255,7 +259,7 @@ public class OfflineManager {
             OneoffTask myTask = new OneoffTask.Builder()
                     .setService(OfflineManagerServiceLollipop.class)
                     .setExecutionWindow(
-                            3 , 5)
+                            2 , this.maxTimeoutSeconds)
                     .setTag(Integer.toString(jobId))
                     .setRequiredNetwork(OneoffTask.NETWORK_STATE_CONNECTED)
                     .build();
@@ -266,7 +270,7 @@ public class OfflineManager {
                     jobId,
                     new ComponentName(context, OfflineManagerService.class))
                     .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .setMinimumLatency(3000)
+                    .setMinimumLatency(this.maxTimeoutSeconds)
                     .build();
             js.schedule(job);
         }
@@ -286,10 +290,21 @@ public class OfflineManager {
     public static class Builder {
         private final Context context;
         private final View view;
+        private int maxTimeoutSeconds;
 
         public Builder(Context context, View view){
             this.context = context;
             this.view = view;
+        }
+
+        /**
+         * Optional configuration for timeout times of retries attempts
+         * @param timeout in seconds
+         * @return Builder
+         */
+        public Builder maxTimeoutSeconds(int timeout){
+            this.maxTimeoutSeconds = timeout*1000;
+            return this;
         }
 
         public OfflineManager build(){
@@ -300,5 +315,13 @@ public class OfflineManager {
     private OfflineManager(Builder builder){
         this.mContext = builder.context;
         this.mView = builder.view;
+
+        //assgin default timeout value if none was passed
+        if(builder.maxTimeoutSeconds == 0) {
+            this.maxTimeoutSeconds = OfflineManager.DEFAULT_TIMEOUT;
+        }
+        else {
+            this.maxTimeoutSeconds = builder.maxTimeoutSeconds;
+        }
     }
 }

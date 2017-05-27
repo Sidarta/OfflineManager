@@ -3,4 +3,9 @@
     <string name="main_buttongetquote">Get Quote!</string>
     <string name="main_serverofflinehinttext">Click to fech an invalid Url. This will simulate an offline server.</string>
     <string name="main_buttongetinvalid">Simulate Offline Server</string>
+
+    <!--Developer can override OfflineManager string to provide his own custom messages on alerts and prompts-->
+    <!--enforce device mode-->
+    <string name="enforce_no_connection_feedback">Seus dispositivo está sem internet. Tente mais tarde.</string>
+
 </resources>

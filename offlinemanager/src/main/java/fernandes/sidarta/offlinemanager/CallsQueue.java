@@ -19,7 +19,7 @@ import retrofit2.Call;
  * CallsQueue is a static hash map that stores an job ID that identifies the job responsible for calling the call again when parameter are met,
  * and also stores an instance of CallsCallbacks - which represents the call and context for that call (callback success and fail, context and view)
  */
-class CallsQueue extends Application{
+public class CallsQueue extends Application{
 
     private Map<Integer, CallsCallbacks> hashMap;
     private static final String TAG = "CallsQueue";
