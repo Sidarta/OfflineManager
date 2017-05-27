@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         //initializing offlineManager
         mManager = new OfflineManager.Builder(this, mGetQuoteBtn)
-        .maxTimeoutSeconds(3) //on builder you can specify custom timeout times for retries
-        .build();
+            .maxTimeoutSeconds(3)
+            .build();
 
         mGetQuoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                  * and to when server seems to be offline (onFailure callback received).
                  * We also pass number of retries we want
                  *
-                 * mManager.treatedCall(call, deviceMode, serverMode, retries, isVerbose, callbackSuccess, callbackFailure)
+                 * signature is: mManager.treatedCall(call, deviceMode, serverMode, retries, isVerbose, callbackSuccess, callbackFailure)
                  */
                 mManager.treatedCall(
                         getQuoteCall, //retrofit call, already initialized with the method/parameters to be used
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                  * and to when server seems to be offline (onFailure callback received).
                  * We also pass number of retries we want
                  *
-                 * mManager.treatedCall(call, deviceMode, serverMode, retries, isVerbose, callbackSuccess, callbackFailure)
+                 * signature is: mManager.treatedCall(call, deviceMode, serverMode, retries, isVerbose, callbackSuccess, callbackFailure)
                  */
                 mManager.treatedCall(
                         getInvalidCall,
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                         new OfflineManager.CustomCallbackFail() {
                             @Override
                             public void failCallback(Call call, Throwable t) {
-                                //Logging failiure callbacks here,
+                                //Logging failure callbacks here,
                                 //User messages are automatically handled by OfflineManager
                                 Log.d(TAG, "fail callback");
                             }

@@ -71,8 +71,6 @@ public class OfflineManager {
                                        final CustomCallbackFail interFail
                                        ) {
 
-
-
         if(tries < 0) return;
 
         if(!this.isOnline(mContext)) {

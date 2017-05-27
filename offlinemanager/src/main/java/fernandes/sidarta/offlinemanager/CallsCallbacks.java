@@ -11,7 +11,7 @@ import retrofit2.Call;
 
 /**
  * Class responsible to store call and respective callbacks, context and view.
- * This is based on the assumption that a call will be retried and needs its context for when this happens.
+ * This is based on the fact that a call will be retried and needs its context for when this happens.
  * Callbacks are used so user can control behaviour on success and on fail.
  */
 
