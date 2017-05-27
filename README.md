@@ -83,19 +83,19 @@ This boolean is passed in the API call so programmer can specify if user will be
 
 
 ### DeviceOfflineTreatment
-1. Enforce: Connection is required. No treatment is done by API.
-2. Flexible: If device is offline, user is asked whether he/she wants to do the action on background when connection is available.
-3. Transparent: If device is offline, action will be stored and executed again silently when connection if available.
+1. **Enforce**: Connection is required. No treatment is done by API.
+2. **Flexible**: If device is offline, user is asked whether he/she wants to do the action on background when connection is available.
+3. **Transparent**: If device is offline, action will be stored and executed again silently when connection if available.
 
 ### ServerOfflineTreatment + Tries
 
 For server offline treatments, wou will pass mode and an int number of tries. Tries just indicate how many times API will try to execute the call if server is offline.
 
-1. NoAction: If server is offline, no action will be done by the API.
-2. Flexible: If server is offline, user will be prompted (yes/no) to store the action and execute again in background after some time (specified in builder via *maxTimeoutSeconds*)
-3. Transparent: If server is offline, action will be stored and executed again silently after some time (specified in builder via *maxTimeoutSeconds*)
+1. **NoAction**: If server is offline, no action will be done by the API.
+2. **Flexible**: If server is offline, user will be prompted (yes/no) to store the action and execute again in background after some time (specified in builder via *maxTimeoutSeconds*)
+3. **Transparent**: If server is offline, action will be stored and executed again silently after some time (specified in builder via *maxTimeoutSeconds*)
 
-*Ps.: In Flexible mode, prompt will show every time action is tries (if app is on foreground). This makes user have control to stop the chain if he/she wants*
+*Ps.: In Flexible mode, prompt will show every time action is tried (if app is on foreground). This makes user have control to stop the chain if he/she wants*
 
 
 ## Using custon strings
