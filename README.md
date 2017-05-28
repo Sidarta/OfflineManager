@@ -98,7 +98,7 @@ For server offline treatments, wou will pass mode and an int number of tries. Tr
 *Ps.: In Flexible mode, prompt will show every time action is tried (if app is on foreground). This makes user have control to stop the chain if he/she wants*
 
 
-## Using custon strings
+## Using custom strings
 
 The lib already implements default messages for all cases. Programer can override them to provide his own custom messages (and also implements internationalization)
 
