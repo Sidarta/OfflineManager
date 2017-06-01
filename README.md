@@ -3,6 +3,10 @@
 This lib offers an easy way for developers to provide offline functionality and treatment in their app.
 It handles Retrofit calls and offers methods to cater for when device has no connection, or for when server seems to be offline or not responding.
 
+See on youtube a quick guide on how to install and use it.
+
+https://youtu.be/fzz0U0jM3X8
+
 ## Prerequisites
 
 ### API Support
@@ -17,6 +21,25 @@ compile 'com.squareup.retrofit2:retrofit:2.1.0'
 ## Configuring on the App
 
 Configuring and using the API is very very simple.
+
+### Installing
+Add jitpack repository
+```gradle
+//root build.gradle
+...
+allprojects {
+    repositories {
+       ...
+       maven { url 'https://jitpack.io' } //add this line
+    }
+}
+```
+
+Add gradle dependency
+
+```gradle
+compile 'com.github.sidarta:offlinemanager:1.0'
+```
 
 ### 1. Add permissions on App Manifest
 
@@ -34,7 +57,7 @@ OfflineManager mManager;
 ...
  //initializing offlineManager with its Builder
  mManager = new OfflineManager.Builder(this, aView)
-            .maxTimeoutSeconds(3)
+            .maxTimeoutSeconds(3) //opitional - custom time for retry when server is offline
             .build();
 ```
 Like shown, You can configure custom timeout values in the builder, but it´s not required.
