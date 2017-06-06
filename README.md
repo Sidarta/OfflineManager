@@ -38,7 +38,7 @@ allprojects {
 Add gradle dependency
 
 ```gradle
-compile 'com.github.sidarta:offlinemanager:1.0'
+compile 'com.github.sidarta:offlinemanager:1.1'
 ```
 
 ### 1. Add permissions on App Manifest
