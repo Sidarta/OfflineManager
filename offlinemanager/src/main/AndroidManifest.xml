@@ -3,7 +3,7 @@
     package="fernandes.sidarta.offlinemanager">
 
     <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true" android:name=".CallsQueue">
+        android:supportsRtl="true">
 
         <service
             android:name=".OfflineManagerService"

@@ -19,46 +19,53 @@ import retrofit2.Call;
  * CallsQueue is a static hash map that stores an job ID that identifies the job responsible for calling the call again when parameter are met,
  * and also stores an instance of CallsCallbacks - which represents the call and context for that call (callback success and fail, context and view)
  */
-public class CallsQueue extends Application{
+public class CallsQueue {
 
     private Map<Integer, CallsCallbacks> hashMap;
+    private static CallsQueue instance;
     private static final String TAG = "CallsQueue";
 
-    public CallsQueue(){
+    private CallsQueue(){
         hashMap = new HashMap<>();
     }
 
-    public void putCallsCallbacks(int id,
-                                  Call call,
-                                  OfflineManager.CustomCallbackSuccess callbackSuccess,
-                                  OfflineManager.CustomCallbackFail callbackFail,
-                                  Context context,
-                                  View view,
-                                  OfflineManager.DeviceOfflineTreatment deviceOfflineTreatment,
-                                  OfflineManager.ServerOfflineTreatment serverOfflineTreatment,
-                                  boolean verbose,
-                                  int retries){
+    static CallsQueue getInstance(){
+        if(instance == null)
+            instance = new CallsQueue();
+        return instance;
+    }
+
+    void putCallsCallbacks(int id,
+                           Call call,
+                           OfflineManager.CustomCallbackSuccess callbackSuccess,
+                           OfflineManager.CustomCallbackFail callbackFail,
+                           Context context,
+                           View view,
+                           OfflineManager.DeviceOfflineTreatment deviceOfflineTreatment,
+                           OfflineManager.ServerOfflineTreatment serverOfflineTreatment,
+                           boolean verbose,
+                           int retries){
 
 
         Log.d(TAG , "Put Queue");
         hashMap.put(id, new CallsCallbacks(call, callbackSuccess, callbackFail, context, view, deviceOfflineTreatment, serverOfflineTreatment, verbose, retries));
     }
 
-    public void putCallsCallbacks(int jobid, CallsCallbacks cb) {
+    void putCallsCallbacks(int jobid, CallsCallbacks cb) {
         hashMap.put(jobid, cb);
     }
 
-    public CallsCallbacks getCallCallback(int id){
+    CallsCallbacks getCallCallback(int id){
         Log.d(TAG , "Get Queue CB");
         return hashMap.get(id);
     }
 
-    public void removeCallCallback(int id){
+    void removeCallCallback(int id){
         hashMap.remove(id);
         Log.d(TAG , "Remove Queue CB");
     }
 
-    public Map<Integer, CallsCallbacks> getHashMap() {
+    Map<Integer, CallsCallbacks> getHashMap() {
         return hashMap;
     }
 }

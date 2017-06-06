@@ -183,9 +183,7 @@ public class OfflineManager {
         int jobId = rand.nextInt(Integer.MAX_VALUE-1) + 1;
 
         //armazeno a call
-        CallsQueue queue = (CallsQueue)context.getApplicationContext();
-        queue.putCallsCallbacks(jobId, call, interSuccess, interFail, context, view, deviceOffTreatment, serverOffTreatment, verbose, retries);
-
+        CallsQueue.getInstance().putCallsCallbacks(jobId, call, interSuccess, interFail, context, view, deviceOffTreatment, serverOffTreatment, verbose, retries);
 
         //agendo o job pra quando tiver connection
         scheduleJobConnection(jobId, context);
@@ -207,8 +205,7 @@ public class OfflineManager {
             jobId = rand.nextInt(Integer.MAX_VALUE);
         }
 
-        CallsQueue queue = (CallsQueue)context.getApplicationContext();
-        queue.putCallsCallbacks(jobId, call, interSuccess, interFail, context, view, deviceOffTreatment, serverOffTreatment, verbose, retries);
+        CallsQueue.getInstance().putCallsCallbacks(jobId, call, interSuccess, interFail, context, view, deviceOffTreatment, serverOffTreatment, verbose, retries);
 
         //agendo o job pra quando tiver connection + timeout
         scheduleJobConnectionAndTimeout(jobId, context);
@@ -222,8 +219,7 @@ public class OfflineManager {
             jobId = rand.nextInt(Integer.MAX_VALUE);
         }
 
-        CallsQueue queue = (CallsQueue)cb.getContext().getApplicationContext();
-        queue.putCallsCallbacks(jobId, cb);
+        CallsQueue.getInstance().putCallsCallbacks(jobId, cb);
 
         //agendo o job pra quando tiver connection
         scheduleJobConnectionAndTimeout(jobId, cb.getContext());
@@ -257,7 +253,7 @@ public class OfflineManager {
             OneoffTask myTask = new OneoffTask.Builder()
                     .setService(OfflineManagerServiceLollipop.class)
                     .setExecutionWindow(
-                            2 , this.maxTimeoutSeconds)
+                            0 , this.maxTimeoutSeconds)
                     .setTag(Integer.toString(jobId))
                     .setRequiredNetwork(OneoffTask.NETWORK_STATE_CONNECTED)
                     .build();

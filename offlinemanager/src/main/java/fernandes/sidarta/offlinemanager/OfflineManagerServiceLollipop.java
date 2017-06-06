@@ -20,7 +20,7 @@ public class OfflineManagerServiceLollipop extends GcmTaskService {
     @Override
     public int onRunTask(TaskParams taskParams) {
 
-        final CallsQueue queue = (CallsQueue)getApplicationContext();
+        final CallsQueue queue = CallsQueue.getInstance();
         final int jobId = Integer.parseInt(taskParams.getTag());
 
         final CallsCallbacks cb = queue.getCallCallback(jobId);

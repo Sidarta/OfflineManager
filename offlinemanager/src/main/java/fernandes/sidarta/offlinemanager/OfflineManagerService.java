@@ -18,7 +18,7 @@ public class OfflineManagerService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
 
-        final CallsQueue queue = (CallsQueue)getApplicationContext();
+        final CallsQueue queue = CallsQueue.getInstance();
         final int jobId = jobParameters.getJobId();
 
         final CallsCallbacks cb = queue.getCallCallback(jobId);
