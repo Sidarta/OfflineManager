@@ -41,16 +41,7 @@ Add gradle dependency
 compile 'com.github.sidarta:offlinemanager:1.1'
 ```
 
-### 1. Add permissions on App Manifest
-
-```xml
- <!--Permissions required and used by Offline Manager-->
- <uses-permission android:name="android.permission.INTERNET" />
- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
- <!---->
-```
-
-### 2. Declare and initialize OfflineManager
+### 1. Declare and initialize OfflineManager
 ```java
 //OfflineManager
 OfflineManager mManager;
@@ -62,7 +53,7 @@ OfflineManager mManager;
 ```
 Like shown, You can configure custom timeout values in the builder, but it´s not required.
 
-### 3. Use
+### 2. Use
 
 To use you need to declare a retrofit call
 
@@ -75,7 +66,7 @@ Call retrofitCall = mRetrofitApi.getOrPutSomething(headerParam1, headerParam2);
 
 ```java
 mManager.treatedCall(
-      retrofitCall, 
+      retrofitCall,
       OfflineManager.DeviceOfflineTreatment.Flexible, //Flexible mode - user interaction via pop up
       OfflineManager.ServerOfflineTreatment.Flexible, //Flexible mode - user interaction via pop up
       5,          //number of retries in case of server offline
@@ -154,5 +145,3 @@ Strings are:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-
