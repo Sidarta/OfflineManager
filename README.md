@@ -38,7 +38,7 @@ allprojects {
 Add gradle dependency
 
 ```gradle
-compile 'com.github.sidarta:offlinemanager:1.1'
+compile 'com.github.sidarta:offlinemanager:1.2'
 ```
 
 ### 1. Declare and initialize OfflineManager
