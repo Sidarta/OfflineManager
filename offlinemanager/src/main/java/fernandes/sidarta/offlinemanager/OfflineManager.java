@@ -134,7 +134,7 @@ public class OfflineManager {
                 public void onFailure(final Call<T> call, Throwable t) {
                     interFail.failCallback(call, t);
 
-                    if(retries <= 0) {
+                    if(retries > 0) {
                         switch (serverOffTreatment) {
                             case NoAction:
                                 if (verbose)
