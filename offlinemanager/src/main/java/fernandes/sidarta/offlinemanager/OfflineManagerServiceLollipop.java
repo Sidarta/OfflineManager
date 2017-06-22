@@ -43,7 +43,7 @@ public class OfflineManagerServiceLollipop extends GcmTaskService {
 
                 cb.getCallbackFail().failCallback(call, t); //retrying or not, we need to toss callback for fine control on the application
 
-                if(retries == 0) {
+                if(retries <= 0) {
                     if(cb.isVerbose())
                         Snackbar.make(cb.getView(), R.string.last_retry_finished, Snackbar.LENGTH_LONG).show();
                     queue.removeCallCallback(jobId);

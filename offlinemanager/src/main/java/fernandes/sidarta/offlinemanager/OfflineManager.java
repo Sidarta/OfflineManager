@@ -65,13 +65,13 @@ public class OfflineManager {
     public <T> void treatedCall(final Call<T> objCall,
                                        final DeviceOfflineTreatment deviceOfflineTreatment,
                                        final ServerOfflineTreatment serverOffTreatment,
-                                       final int tries,
+                                       final int retries,
                                        final boolean verbose,
                                        final CustomCallbackSuccess interSuccess,
                                        final CustomCallbackFail interFail
                                        ) {
 
-        if(tries < 0) return;
+        if(retries < 0) return;
 
         if(!this.isOnline(mContext)) {
             //does not have connection
@@ -88,7 +88,7 @@ public class OfflineManager {
                             .setPositiveButton(R.string.pop_up_yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    handleCallOffline(objCall, deviceOfflineTreatment, serverOffTreatment, verbose, tries,
+                                    handleCallOffline(objCall, deviceOfflineTreatment, serverOffTreatment, verbose, retries,
                                             interSuccess, interFail, mContext, mView);
 
                                     if(verbose)
@@ -110,7 +110,7 @@ public class OfflineManager {
                     break;
 
                 case Transparent:
-                    handleCallOffline(objCall, deviceOfflineTreatment, serverOffTreatment, verbose, tries,
+                    handleCallOffline(objCall, deviceOfflineTreatment, serverOffTreatment, verbose, retries,
                             interSuccess, interFail, mContext, mView);
                     //transparent mode by default have no feedback messages
                     break;
@@ -129,40 +129,42 @@ public class OfflineManager {
                     }
                 }
 
-                //treat server offline cases here, as number os tries
+                //treat server offline cases here, as number os retries
                 @Override
                 public void onFailure(final Call<T> call, Throwable t) {
                     interFail.failCallback(call, t);
 
-                    switch (serverOffTreatment){
-                        case NoAction:
-                            if(verbose)
-                                Snackbar.make(mView, R.string.no_action, Snackbar.LENGTH_LONG).show();
-                            break;
+                    if(retries <= 0) {
+                        switch (serverOffTreatment) {
+                            case NoAction:
+                                if (verbose)
+                                    Snackbar.make(mView, R.string.no_action, Snackbar.LENGTH_LONG).show();
+                                break;
 
-                        //-1 on tries because first job schedule already counts as a try
-                        case Flexible:
-                            AlertDialog dialog = new AlertDialog.Builder(mContext)
-                                    .setTitle(R.string.flexible_dialog_server_retry_title)
-                                    .setMessage(R.string.flexible_dialog_server_retry_message)
-                                    .setPositiveButton(R.string.pop_up_yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            handleServerOffline(0, call.clone(), deviceOfflineTreatment, serverOffTreatment, verbose, tries-1, interSuccess, interFail, mContext, mView);
-                                            if(verbose)
-                                                Snackbar.make(mView, R.string.flexible_yes_selected_server_offline, Snackbar.LENGTH_LONG).show();
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.pop_up_no, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if(verbose)
-                                                Snackbar.make(mView, R.string.flexible_no_selected_server_offline, Snackbar.LENGTH_LONG).show();
-                                        }
-                                    })
-                                    .show();
-                            break;
-                        case Transparent:
-                            handleServerOffline(0, call.clone(), deviceOfflineTreatment, serverOffTreatment, verbose, tries-1, interSuccess, interFail, mContext, mView);
-                            break;
+                            //-1 on retries because first job schedule already counts as a try
+                            case Flexible:
+                                AlertDialog dialog = new AlertDialog.Builder(mContext)
+                                        .setTitle(R.string.flexible_dialog_server_retry_title)
+                                        .setMessage(R.string.flexible_dialog_server_retry_message)
+                                        .setPositiveButton(R.string.pop_up_yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                handleServerOffline(0, call.clone(), deviceOfflineTreatment, serverOffTreatment, verbose, retries - 1, interSuccess, interFail, mContext, mView);
+                                                if (verbose)
+                                                    Snackbar.make(mView, R.string.flexible_yes_selected_server_offline, Snackbar.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.pop_up_no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (verbose)
+                                                    Snackbar.make(mView, R.string.flexible_no_selected_server_offline, Snackbar.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .show();
+                                break;
+                            case Transparent:
+                                handleServerOffline(0, call.clone(), deviceOfflineTreatment, serverOffTreatment, verbose, retries - 1, interSuccess, interFail, mContext, mView);
+                                break;
+                        }
                     }
                 }
             });
