@@ -101,7 +101,7 @@ public class OfflineManagerService extends JobService {
     }
 
     private void showSnackbar(View view, String message){
-        if(view != null && view.getParent() != null){
+        if(view != null && view.getRootView() != null && view.getParent() != null){
             Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
         }
     }

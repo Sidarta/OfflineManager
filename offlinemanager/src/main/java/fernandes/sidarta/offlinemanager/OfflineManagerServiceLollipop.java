@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
@@ -98,7 +99,8 @@ public class OfflineManagerServiceLollipop extends GcmTaskService {
     }
 
     private void showSnackbar(View view, String message){
-        if(view != null && view.getParent() != null){
+        if(view != null && view.getRootView() != null && view.getParent() != null){
+
             Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
         }
     }
