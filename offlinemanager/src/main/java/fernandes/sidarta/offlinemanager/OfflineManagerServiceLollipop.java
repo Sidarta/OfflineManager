@@ -1,10 +1,12 @@
 package fernandes.sidarta.offlinemanager;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
@@ -34,7 +36,7 @@ public class OfflineManagerServiceLollipop extends GcmTaskService {
             public void onResponse(Call call, Response response) {
                 //if verbose - show feedback message and pass control to callback
                 if(cb.isVerbose())
-                    showSnackbar(cb.getView(), getResources().getString(R.string.service_onresponse));
+                    showFeedback(getApplicationContext(), getResources().getString(R.string.service_onresponse));
                 cb.getCallbackSuccess().responseCallback(call, response);
                 queue.removeCallCallback(jobId);
             }
@@ -47,7 +49,7 @@ public class OfflineManagerServiceLollipop extends GcmTaskService {
 
                 if(retries <= 0) {
                     if(cb.isVerbose())
-                        showSnackbar(cb.getView(), getResources().getString(R.string.last_retry_finished));
+                        showFeedback(getApplicationContext(), getResources().getString(R.string.last_retry_finished));
                     queue.removeCallCallback(jobId);
 
                 } else {
@@ -57,7 +59,7 @@ public class OfflineManagerServiceLollipop extends GcmTaskService {
                             //in this case only a message will show - BUT this case should not happen
                             //-> makes no sense to try again if mode is no action
                             if(cb.isVerbose())
-                                showSnackbar(cb.getView(), getResources().getString(R.string.no_action));
+                                showFeedback(getApplicationContext(), getResources().getString(R.string.no_action));
                             queue.removeCallCallback(jobId);
                             break;
                         case Flexible:
@@ -71,13 +73,13 @@ public class OfflineManagerServiceLollipop extends GcmTaskService {
                                             cb.setRetries(retries - 1);
                                             manager.handleServerOffline(jobId, cb);
                                             if(cb.isVerbose())
-                                                showSnackbar(cb.getView(), getResources().getString(R.string.flexible_yes_selected_server_offline));
+                                                showFeedback(getApplicationContext(), getResources().getString(R.string.flexible_yes_selected_server_offline));
                                         }
                                     })
                                     .setNegativeButton(R.string.pop_up_no, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             if(cb.isVerbose())
-                                                showSnackbar(cb.getView(), getResources().getString(R.string.flexible_no_selected_server_offline));
+                                                showFeedback(getApplicationContext(), getResources().getString(R.string.flexible_no_selected_server_offline));
                                             queue.removeCallCallback(jobId);
                                         }
                                     })
@@ -98,10 +100,9 @@ public class OfflineManagerServiceLollipop extends GcmTaskService {
         return 0;
     }
 
-    private void showSnackbar(View view, String message){
-        if(view != null && view.getRootView() != null && view.getParent() != null){
-
-            Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    private void showFeedback(Context context, String message){
+        if(context != null){
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         }
     }
 }
